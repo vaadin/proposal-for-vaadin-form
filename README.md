@@ -29,8 +29,8 @@ Vaadin helps developers build web apps that users love. Excellent support for ma
  - how to render parts of a form conditionally
  - how to create multi-page forms (aka wizards)
  - how to reset form to its initial state
-
-There are many good (and bad) examples out there for developers building apps with React, Angular and Vue. But there are not so many examples that are not tied to a framework. At Vaadin we see a lack of resources focusing on building forms with Web Components, e.g. with [Vaadin](https://vaadin.com/framework) or on the [`open-wc`](https://open-wc.org/) tech stack using libraries like [`lit-element`](https://www.npmjs.com/package/lit-element) or [`haunted`](https://www.npmjs.com/package/haunted).
+ 
+There are many good (and bad) examples out there for developers building apps with React, Angular and Vue. But there are not so many examples that are not tied to a framework. At Vaadin we see a lack of resources focusing on building forms with Web Components, e.g. with [Vaadin](https://vaadin.com/framework) or on the [`open-wc`](https://open-wc.org/) tech stack using libraries like [`lit-element`](https://www.npmjs.com/package/lit-element) or [`haunted`](https://www.npmjs.com/package/haunted). A form component is currently missing from the Vaadin Components set, and there has been an [open request](https://github.com/vaadin/vaadin-core/issues/207) for it for a while.
 
 The Vaadin Form library would become such a resource: helping developers create forms that users love, out of standard Web Components.
 
