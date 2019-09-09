@@ -1,26 +1,26 @@
 # Vaadin Form: Proposal
-Small and fast framework-agnostic library for creating forms with Web Components. Strongly typed with TypeScript. Includes plenty of examples of good form UX patterns.
+We are planning to build a small and fast framework-agnostic library for creating forms with Web Components. Strong typing using TypeScript. Lot of examples to use good UX patterns.
 
 ## Vaadin Form goals
-_You need a form in your app? Not sure how to do it best? Vaadin Form docs explain what makes a good form UX, and how to implement it using the `vaadin-form` web component so that the code is clean, bug free and easy to maintain._
+_Do you need a form in your app? Not sure how to do it best? Vaadin Form docs explain what makes a good form UX, and how to implement it using the `vaadin-form` web component so that the code is clean, bug-free and easy to maintain._
 
 Vaadin Form _should_:
  - explain how to create great forms with Web Components
  - give ready-to-use examples for common use cases
  - make typical tasks like validation, submission handling, and form state management much easier to implement than with plain JavaScript
  - support TypeScript to allow static type-checking
- - work out-of-the-box with Vaadin Components
  - work smoothly with any standard Web Components
+ - work out-of-the-box with Vaadin Components
  - be small and fast with little run-time overhead
 
 ## Status
-We are validating the idea, there is no implementation yet.
+We are validating the idea. There is no implementation yet.
 Your feedback is welcome! Please [create issues](https://github.com/vaadin/proposal-for-vaadin-form/issues/new) in this repo.
 
 ## Overview and motivation
-Forms are overwhelmingly common on the Web and even more so in line-of-business apps. Yet, it's surprisingly difficult to make forms with a good UX. And for complex forms the DX often suffers as well.
+Forms are overwhelmingly common on the Web and even more so in line-of-business apps. Yet, it's surprisingly difficult to make forms with a good UX. And for complex forms, the DX often suffers as well.
 
-Vaadin helps developers build web apps that users love. Good support for making forms has been a strong side of Vaadin, and we want that to remain as the front-end technology used in Vaadin evolves over time. When building UIs with Web Components, developers would be looking to answer the same quesitons about making forms:
+Vaadin helps developers build web apps that users love. Excellent support for making forms has been a strong side of Vaadin, and we want that to remain as the front-end technology used in Vaadin evolves. When building UIs with Web Components on the client-side, developers would be looking to answer the same questions about making forms:
  - how to show backend data in a form
  - how to submit a form to the backend
  - how to validate a form (per field / as a whole)
@@ -154,10 +154,10 @@ html`
 ></vaadin-form>`
 ```
 
-Key points this example illusrates:
+Key points this example illustrates:
  - the `validator` and `renderer` function properties can be set on individual `<vaadin-form-field>` elements as well
  - when a field has a `renderer` function, it calls that function to create its light DOM
- - field `validator` functions run on every key stroke targeting that field, but that can be debounced or limited to 'run only on blur'
+ - field `validator` functions run on every keystroke targeting that field, but that can be debounced or limited to 'run only on blur'
  - `validator` functions may be async _(that applies both to form-level and field-level validators)_
  - the validation status and the error message from the field `validator` function are available to the field `renderer` function via `field.validating`, `field.error` and `field.errorMessage`
 
