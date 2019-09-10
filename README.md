@@ -10,7 +10,7 @@ Vaadin Form _should_:
  - make typical tasks like validation, submission handling, and form state management much easier to implement than with plain JavaScript
  - support TypeScript to allow static type-checking
  - work smoothly with any standard Web Components
- - work out-of-the-box with Vaadin Components
+ - work out-of-the-box with Vaadin components
  - be small and fast with little run-time overhead
 
 ## Status
@@ -30,7 +30,7 @@ Vaadin helps developers build web apps that users love. Excellent support for ma
  - how to create multi-page forms (aka wizards)
  - how to reset form to its initial state
  
-There are many good (and bad) examples out there for developers building apps with React, Angular and Vue. But there are not so many examples that are not tied to a framework. At Vaadin we see a lack of resources focusing on building forms with Web Components, e.g. with [Vaadin](https://vaadin.com/framework) or on the [`open-wc`](https://open-wc.org/) tech stack using libraries like [`lit-element`](https://www.npmjs.com/package/lit-element) or [`haunted`](https://www.npmjs.com/package/haunted). A form component is currently missing from the Vaadin Components set, and there has been an [open request](https://github.com/vaadin/vaadin-core/issues/207) for it for a while.
+There are many good (and bad) examples out there for developers building apps with React, Angular and Vue. But there are not so many examples that are not tied to a framework. At Vaadin we see a lack of resources focusing on building forms with Web Components, e.g. with [Vaadin](https://vaadin.com/framework) or on the [`open-wc`](https://open-wc.org/) tech stack using libraries like [`lit-element`](https://www.npmjs.com/package/lit-element) or [`haunted`](https://www.npmjs.com/package/haunted). A form component is currently missing from the Vaadin components set, and there has been an [open request](https://github.com/vaadin/vaadin-core/issues/207) for it for a while.
 
 The Vaadin Form library would become such a resource: helping developers create forms that users love, out of standard Web Components.
 
@@ -161,8 +161,8 @@ Key points this example illustrates:
  - `validator` functions may be async _(that applies both to form-level and field-level validators)_
  - the validation status and the error message from the field `validator` function are available to the field `renderer` function via `field.validating`, `field.error` and `field.errorMessage`
 
-### Integration with Vaadin Components
-This example shows how to use Vaadin Form together with Vaadin Components such as `<vaadin-text-field>`.
+### Integration with Vaadin components
+This example shows how to use Vaadin Form together with Vaadin components such as `<vaadin-text-field>`.
 
 ![vaadin-components](https://user-images.githubusercontent.com/22416150/64441727-175c9400-d0d7-11e9-9284-9a99109ef1e9.gif)
 
@@ -195,7 +195,7 @@ html`
 ```
 
 Key points this example illusrates:
- - when using Vaadin Components there is no need to define the mark-up to display a validation spinner, or an error message. These features are available out-of-the-box
+ - when using Vaadin components there is no need to define the mark-up to display a validation spinner, or an error message. These features are available out-of-the-box
  - when `<vaadin-form-field>` finds a light DOM child that implements `VaadinFormFieldMixin`, it automatically hooks up the event handlers and field properties, so that there is no need to define a custom field renderer
  - it is possible to create non-Vaadin Web Components that implement `VaadinFormFieldMixin`. Such Web Components would require less code to be used inside Vaadin Forms.
 
