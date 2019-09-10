@@ -37,6 +37,8 @@ The Vaadin Form library would become such a resource: helping developers create 
 ## Code samples
 Some people say a code snippet is worth a thousand words.
 
+The specific APIs used in the code snippets below are a very early sketch and may very well change in the final product. The snippets are here to illustrate the key concepts and use cases described after each code snippet.
+
 _NOTE: All code samples in this section show how to use Vaadin Form in [`lit-html`](https://lit-html.polymer-project.org/) templates._
 
 ### Render a basic form
