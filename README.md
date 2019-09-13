@@ -29,7 +29,7 @@ Vaadin helps developers build web apps that users love. Excellent support for ma
  - how to render parts of a form conditionally
  - how to create multi-page forms (aka wizards)
  - how to reset form to its initial state
- 
+
 There are many good (and bad) examples out there for developers building apps with React, Angular and Vue. But there are not so many examples that are not tied to a framework. At Vaadin we see a lack of resources focusing on building forms with Web Components, e.g. with [Vaadin](https://vaadin.com/framework) or on the [`open-wc`](https://open-wc.org/) tech stack using libraries like [`lit-element`](https://www.npmjs.com/package/lit-element) or [`haunted`](https://www.npmjs.com/package/haunted). A form component is currently missing from the Vaadin components set, and there has been an [open request](https://github.com/vaadin/vaadin-core/issues/207) for it for a while.
 
 The Vaadin Form library would become such a resource: helping developers create forms that users love, out of standard Web Components.
@@ -72,7 +72,7 @@ Key points this example illusrates:
  - the `renderer` function allows using the form state (`form.pristine`, `form.submitting`, and `form.error`), and actions (`form.submit`) when rendering the form
  - the `renderer` function works well with [`lit-html`](https://lit-html.polymer-project.org/), but can be used also without it
 
-### Validate form before submitting
+### Validate a form before submitting
 This example shows how to use Vaadin Form to validate a form before it is submitted.
 
 ![form-validation](https://user-images.githubusercontent.com/22416150/64430232-811d7380-d0c0-11e9-9505-b07e4fdf6265.png)
@@ -98,7 +98,7 @@ html`
       <label>Repeat password <input type="password" name="passwordRepeated"></label>
     </vaadin-form-field>
 
-    ${form.error && html`<p class="error">${form.errorMessage}</p>`}
+    ${form.error ? html`<p class="error">${form.errorMessage}</p>` : ''}
 
     <button @click=${form.submit}
       ?disabled=${form.pristine || form.submitting || form.error}
@@ -135,7 +135,7 @@ html`
 <vaadin-form
   .renderer=${(root, form) => render(html`
     <vaadin-form-field
-      .name="userName"
+      name="username"
       .validator=${onBlur(isAvailableName)}
       .renderer=${(root, field) => render(html`
       <label>
@@ -146,10 +146,10 @@ html`
           @change=${field.onChange}
           @blur=${field.onBlur}
           @focus=${field.onFocus}>
-        ${this.validating ? html`<div class="spinner">validating...</div>` : ''}
+        ${field.validating ? html`<div class="spinner">validating...</div>` : ''}
       </label>
       <p class="error">
-        ${this.error && field.touched ? this.errorMessage : ''}
+        ${field.error && field.touched ? field.errorMessage : ''}
       </p>`, root)}
     ></vaadin-form-field>
   `, root)}
@@ -161,7 +161,7 @@ Key points this example illustrates:
  - when a field has a `renderer` function, it calls that function to create its light DOM
  - field `validator` functions run on every keystroke targeting that field, but that can be debounced or limited to 'run only on blur'
  - `validator` functions may be async _(that applies both to form-level and field-level validators)_
- - the validation status and the error message from the field `validator` function are available to the field `renderer` function via `field.validating`, `field.error` and `field.errorMessage`
+ - the validation status and the error message from the field's `validator` function are available to the field's `renderer` function via `field.validating`, `field.error` and `field.errorMessage`
 
 ### Integration with Vaadin components
 This example shows how to use Vaadin Form together with Vaadin components such as `<vaadin-text-field>`.
@@ -182,7 +182,7 @@ const isAvailableName = async (value) => {
 html`
 <vaadin-form
   .renderer=${(root, form) => render(html`
-    <vaadin-form-field .name="username" .validator=${onBlur(isAvailableName)}>
+    <vaadin-form-field name="username" .validator=${onBlur(isAvailableName)}>
       <vaadin-text-field label="Username"></vaadin-text-field>
     </vaadin-form-field>
 
@@ -197,7 +197,7 @@ html`
 ```
 
 Key points this example illusrates:
- - when using Vaadin components there is no need to define the mark-up to display a validation spinner, or an error message. These features are available out-of-the-box
+ - when using Vaadin components inside a `<vaadin-form>` there is no need to create any markup in order to display a validation spinner or an error message. These features are available out-of-the-box.
  - when `<vaadin-form-field>` finds a light DOM child that implements `VaadinFormFieldMixin`, it automatically hooks up the event handlers and field properties, so that there is no need to define a custom field renderer
  - it is possible to create non-Vaadin Web Components that implement `VaadinFormFieldMixin`. Such Web Components would require less code to be used inside Vaadin Forms.
 
