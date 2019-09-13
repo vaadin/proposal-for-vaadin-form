@@ -201,6 +201,125 @@ Key points this example illusrates:
  - when `<vaadin-form-field>` finds a light DOM child that implements `VaadinFormFieldMixin`, it automatically hooks up the event handlers and field properties, so that there is no need to define a custom field renderer
  - it is possible to create non-Vaadin Web Components that implement `VaadinFormFieldMixin`. Such Web Components would require less code to be used inside Vaadin Forms.
 
+## Individual features
+This section describes individual features that could be included into the Vaadin Forms library.
+Some of the features are about alternative ways of getting the same outcome (e.g. Custom Elements for the API access vs. JS classes for API access), and some are complementary (e.g. Custom Elements for API access and rendering forms with a `renderer()` functional-reactive property).
+
+Listing features separately allows discussing them separately and eventually prioritizing between them. If you think that the feature would be useful to you, please +1 it (each feature has its own GitHub issue that allows you to add reacrions and comments). If the feature you want to see in the Vaadin Form library is missing from this list, please open a new issue in this repo.
+
+### API access: Custom Elements `<vaadin-form>` and `<vaadin-form-field>` ([#3](https://github.com/vaadin/proposal-for-vaadin-form/issues/3))
+ - In order to use the Vaadin Form APIs one would need to add a number of custom elements into the DOM.
+ - The library functionality is exposed via the custom elements' attributes, properties and DOM events.
+
+### API access: JS classes `VaadinForm` and `VaadinFormField` ([#4](https://github.com/vaadin/proposal-for-vaadin-form/issues/4))
+ - In order to use the Vaadin Form APIs one would need to create an instance of the `VaadinForm` class in their JavaScript / TypeScript code.
+ - The library functionality is exposed via JS properties and methods.
+
+### Form and field properties: basic ([#5](https://github.com/vaadin/proposal-for-vaadin-form/issues/5))
+  * `touched`: at least one of the form controls has had a `blur` event since the form was reset / first rendered
+  * `untouched`: none of the form controls has has a `blur` event since it was reset / first rendered
+  ---
+  * `dirty`: at least one of the current form values is not shallow equal to its initial value
+  * `pristine`: each of the current form values is shallow equal to its initial value
+  ---
+  * `valid`: no validators have (yet) reported an error in the last validation check
+    There may be async validators still running.
+  * `invalid`: at least one form or field validator has reported an error in the last validation check
+  * `validating`: there is at least one async validator still running from the last validation check
+  ---
+  * `value` (field-only): the current field value
+  * `initialValue` (field-only): the initial field value
+  * `message` (field-only): the validation message (if any) from the last validation check
+  ---
+  * `values` (form-only): the current form values
+  * `initialValues` (form-only): the initial form values
+  * `messages` (form-only): an array of all field- and form-level validation messages from the last validation check
+  * `submitting` (form-only): an async submission operation is progress
+
+### Form and field properties: fine details ([#6](https://github.com/vaadin/proposal-for-vaadin-form/issues/6))
+  * `visited`: the field has ever received a `focus` event
+  * `modified`: the value has been ever modified from its original.
+    After the values has been modified once, this flag remains set even if the value is modified again to undo the change.
+    The flag is reset when the form is reset.
+  * `focused`: the field currenty has focus
+
+### Form properties: field lists for each flag ([#7](https://github.com/vaadin/proposal-for-vaadin-form/issues/7))
+  * `touchedFields`: an array of field names that have the `touched` flag
+  * `dirtyFields`: an array of field names that have the `dirty` flag
+  * `invalidFields`: an array of field names that have the `invalid` flag
+  * `validatingFields`: an array of field names that have the `validating` flag
+  ---
+  * `visitedFields`: an array of field names that have the `visited` flag
+  * `modifiedFields`: an array of field names that have the `modified` flag
+  * `focusedField`: the field names that currently has focus
+
+### Form rendering: functional-reactive `renderer()` property ([#8](https://github.com/vaadin/proposal-for-vaadin-form/issues/8))
+ - In order to render a Vaadin Form one needs to create a `<vaadin-form>` element in the DOM and set a `renderer` property on it.
+ - `renderer()` is a function that renders the form content based on its properties.
+ - The form properties are provided into the `renderer()` function as a parameter.
+ - The form reacts to user input, updates its properties and calls the `renderer()` function on every change.
+ - The `renderer()` function lets developers to use any rendering library of their choice (e.g. `lit-html`).
+
+### Form rendering: `LitElement` + `VaadinFormMixin` ([#9](https://github.com/vaadin/proposal-for-vaadin-form/issues/9))
+ - In order to render a Vaadin Form one needs to define a web component by extending `VaadinFormMixin(LitElement)` and use the `render()` method inherited from `LitElement`.
+ - The form properties are available inside the `render()` method through the `this.form` property (defined by the mixin).
+ - Changes to the form state are detected by `VaadinFormMixin` and trigger a re-render in the same way as component's own property changes.
+
+### Form rendering: a custom `lit-html` directive ([#10](https://github.com/vaadin/proposal-for-vaadin-form/issues/10))
+ - In order to use Vaadin Form one needs to use a `lit-html` template with a `form.field` directive.
+ - The directive has a `renderer` parameter which is either a static template, or a renderer function (as described above).
+ - The form properties are provided into the `renderer()` function as a parameter.
+ - The form reacts to user input, updates its properties and calls the `renderer()` function on every change.
+ - The `renderer()` function is expected to return a `lit-html`'s `TemplateResult` object.
+
+### Form validation: a `validator()` function ([#11](https://github.com/vaadin/proposal-for-vaadin-form/issues/11))
+ - A `validator()` funciton can be defined for an entire form or for individual form fields.
+ - By default Vaadin Form runs `validator` functions on every state change (on every key stroke).
+ - The `validator()` function could be used in the same way with any form API or rendering approach.
+ - `validator()` functions can be combined in chains to create complex validation rules.
+
+### Basic validators ([#12](https://github.com/vaadin/proposal-for-vaadin-form/issues/12))
+The Vaadin Form library comes with a set of ready-to-use validator functions:
+  `min`
+, `max`
+, `required`
+, `notBlank`
+, `pattern`
+, `minLength`
+, `maxLength`
+, `numeric`
+, etc
+
+### Limiting and debouncing validators ([#13](https://github.com/vaadin/proposal-for-vaadin-form/issues/13))
+ - `validator()` functions have access to the source event that trigges validation, and to the target form / field instance.
+ - Thus, they can be wrapped into filters or debouncers like `onBlur` or `onSubmit` to avoid running validations too often.
+ - The Vaadin Form library comes with a set of ready-to-use filters and debouncers:
+  `onBlur` (for fields)
+, `onSubmit` (for forms)
+, `debounce`
+, etc
+
+### Async validators ([#14](https://github.com/vaadin/proposal-for-vaadin-form/issues/14))
+ - `validator()` functions can by asynchronous.
+ - The state of a form or a single field has a property to signal that an async validation is in progress. Async and sync validators can be combined.
+
+### Pluggable validators ([#15](https://github.com/vaadin/proposal-for-vaadin-form/issues/15))
+ - The `validator` property on a form / field can be added / removed / modified dynamically.
+ - That allows using different validation rules depending on the global state of the app (external to the form), or on the values of the other form fields.
+
+### Temporary disabling validation ([#1](https://github.com/vaadin/proposal-for-vaadin-form/issues/1))
+Vaadin Form has a `novalidate` boolean property (false by default) that lets temporary disabling form validation (e.g. to save the intermediary form state even if it's invalid to be able to continue editing the form later)
+
+### Support for the `formdata` event: use `VaadinFormField` inside native `<form>`s ([#16](https://github.com/vaadin/proposal-for-vaadin-form/issues/16))
+The Vaadin Form library helps creating [_form-assocciated custom elements_](https://web.dev/more-capable-form-controls) by providing a `VaadinFormFieldMixin` (to be used with `LitElement`). With this mixin custom elements can participate in the native form validation and submission pipeline.
+
+### Type-safe forms ([#17](https://github.com/vaadin/proposal-for-vaadin-form/issues/17))
+The `VaadinForm` and `VaadinFormField` API have TypeScript type definitions that inclcude a type parameter to define the types of the form fields. That allows build-time type checking of all form-handling code.
+
+### Cross-field validation ([#18](https://github.com/vaadin/proposal-for-vaadin-form/issues/18))
+ - It should be possible to validate a combination of fields together.
+ - It should be possible to create a change listener on one field that sets another field or group of fields as required.
+
 ## Prior art
 When working on this library the core team has studied the examples, API designs and best practices from a number of other libraries, including the form libraries widely used in React, Angular and Vue apps.
  - Final Form for React (https://final-form.org/)
