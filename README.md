@@ -1,6 +1,8 @@
 # Vaadin Form: Proposal
 We are planning to build a small and fast framework-agnostic library for creating forms with Web Components. Strong typing using TypeScript. Lots of examples to use good UX patterns.
 
+![code-sample](https://user-images.githubusercontent.com/22416150/65491510-d70f5b00-deb7-11e9-8231-aa8df2929a95.png)
+
 ## Vaadin Form goals
 _Do you need a form in your app? Not sure how to do it best? Vaadin Form docs explain what makes a good form UX, and how to implement it using the `vaadin-form` web component so that the code is clean, bug-free and easy to maintain._
 
